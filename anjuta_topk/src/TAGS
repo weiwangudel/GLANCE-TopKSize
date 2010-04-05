@@ -1,0 +1,51 @@
+
+main.c,1427
+#define MAX_PERMU 21,508
+#define MAX_DRILL_DOWN 22,534
+#define MAX_INT 23,562
+struct dir_node25,589
+struct timeval start;40,910
+struct timeval end;41,932
+double est_total;43,953
+long int sample_times;44,971
+long int qcost 45,994
+long int individual_max_qcost 46,1014
+long int individual_qcost 49,1157
+long int already_covered 50,1188
+long int newly_covered 51,1218
+int g_k_elem;54,1294
+time_t g_prog_start_time;55,1308
+int root_flag 57,1335
+int ar[ar59,1402
+struct queueLK level_q;61,1450
+struct queueLK tempvec;62,1474
+struct dir_node *g_depth_stack[g_depth_stack66,1626
+int g_stack_top 67,1663
+double saved_min_age;68,1684
+double saved_max_age;69,1706
+double saved_low_age;70,1728
+double saved_high_age;71,1777
+double topk_min_age;72,1826
+double topk_max_age;73,1847
+unsigned int    topk_dir_num 74,1868
+unsigned int    the_K;75,1902
+unsigned int    cur_k;76,1925
+int has_boundary_flag 77,1948
+int main(109,3056
+int old_count_for_topk(119,3182
+int random_next(245,6320
+int o_begin_sample_from(255,6568
+void get_subdirs(317,8050
+void set_range(422,10491
+void collect_topk(440,11000
+int record_dir_output_file(491,12298
+int eligible_subdirs(617,15182
+static char *dup_str(dup_str630,15455
+int check_type(641,15612
+int get_eligible_file(650,15780
+int min(677,16417
+int max(684,16491
+void permutation(691,16565
+void swap(700,16716
+int Random(709,16790
+void CleanExit(716,16938

@@ -1,0 +1,54 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+MAX_DRILL_DOWN	main.c	22;"	d	file:
+MAX_INT	main.c	23;"	d	file:
+MAX_PERMU	main.c	21;"	d	file:
+already_covered	main.c	/^long int already_covered = 0;$/;"	v
+ar	main.c	/^int ar[MAX_PERMU];		\/* used for permutation *\/$/;"	v
+bool_dir_explored	main.c	/^	int bool_dir_explored;$/;"	m	struct:dir_node	file:
+collect_topk	main.c	/^void collect_topk(struct dir_node *rootPtr)$/;"	f
+cur_k	main.c	/^unsigned int    cur_k;$/;"	v
+dir_abs_path	main.c	/^	char *dir_abs_path;	 \/* absolute path, needed for BFS *\/$/;"	m	struct:dir_node	file:
+dir_name	main.c	/^	char *dir_name;$/;"	m	struct:dir_node	file:
+dir_node	main.c	/^struct dir_node$/;"	s	file:
+end	main.c	/^struct timeval end;$/;"	v	typeref:struct:timeval
+est_total	main.c	/^double est_total;$/;"	v
+g_depth_stack	main.c	/^struct dir_node *g_depth_stack[200];$/;"	v	typeref:struct:dir_node
+g_estratio	main.c	/^double g_estratio = 10; \/* how to extend the size of the encoutered dir *\/$/;"	v
+g_k_elem	main.c	/^int g_k_elem;$/;"	v
+g_prog_start_time	main.c	/^time_t g_prog_start_time;$/;"	v
+g_realsize	main.c	/^int g_realsize = 0;		\/* --realsize changes it to 1 *\/ $/;"	v
+g_stack_top	main.c	/^int g_stack_top = 0;$/;"	v
+get_subdirs	main.c	/^void get_subdirs(   $/;"	f
+has_boundary_flag	main.c	/^int has_boundary_flag = 0;$/;"	v
+individual_max_qcost	main.c	/^long int individual_max_qcost = 0; \/* records the maximum$/;"	v
+individual_qcost	main.c	/^long int individual_qcost = 0;$/;"	v
+level_q	main.c	/^struct queueLK level_q;$/;"	v	typeref:struct:queueLK
+main	main.c	/^int main(int argc, char* argv[]) $/;"	f
+max_age	main.c	/^	double max_age;		$/;"	m	struct:dir_node	file:
+min_age	main.c	/^	double min_age;		\/* mtime range *\/$/;"	m	struct:dir_node	file:
+newly_covered	main.c	/^long int newly_covered = 0;$/;"	v
+o_begin_sample_from	main.c	/^int o_begin_sample_from($/;"	f
+old_count_for_topk	main.c	/^int old_count_for_topk(int argc, char **argv) $/;"	f
+qcost	main.c	/^long int qcost = 0;$/;"	v
+random_next	main.c	/^int random_next(int random_bound)$/;"	f
+root_flag	main.c	/^int root_flag = 0; \/* only set root factor to 1 in fast_subdir *\/$/;"	v
+sample_times	main.c	/^long int sample_times;$/;"	v
+saved_high_age	main.c	/^double saved_high_age; \/* for `binary search` *\/$/;"	v
+saved_low_age	main.c	/^double saved_low_age;  \/* for `binary search` *\/$/;"	v
+saved_max_age	main.c	/^double saved_max_age;$/;"	v
+saved_min_age	main.c	/^double saved_min_age;$/;"	v
+sdirStruct	main.c	/^	struct dir_node *sdirStruct; \/* child array dynamically allocated *\/$/;"	m	struct:dir_node	typeref:struct:dir_node::dir_node	file:
+set_range	main.c	/^void set_range(int top)$/;"	f
+start	main.c	/^struct timeval start;$/;"	v	typeref:struct:timeval
+sub_dir_num	main.c	/^	long int sub_dir_num;$/;"	m	struct:dir_node	file:
+sub_file_num	main.c	/^	long int sub_file_num;$/;"	m	struct:dir_node	file:
+tempvec	main.c	/^struct queueLK tempvec;$/;"	v	typeref:struct:queueLK
+the_K	main.c	/^unsigned int    the_K;$/;"	v
+topk_dir_num	main.c	/^unsigned int    topk_dir_num = 1;$/;"	v
+topk_max_age	main.c	/^double topk_max_age;$/;"	v
+topk_min_age	main.c	/^double topk_min_age;$/;"	v
