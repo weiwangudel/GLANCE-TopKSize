@@ -162,7 +162,7 @@ int old_count_for_topk(int argc, char **argv)
 	/* support relative path for command options */
 	if (root_abs_name != NULL)
 	{
-		free(root_abs_name);
+		//free(root_abs_name);
 	}
 	
 	root_abs_name = dup_str(get_current_dir_name());
@@ -311,7 +311,7 @@ int o_begin_sample_from(
 			int temp = random_next(sub_dir_num);				
 			if (cur_parent != NULL)
 			{
-				free(cur_parent);
+				//free(cur_parent);
 			}
 			cur_parent = dup_str(curPtr->sdirStruct[temp].dir_abs_path);
 			curPtr = &curPtr ->sdirStruct[temp];
@@ -429,7 +429,7 @@ void get_subdirs(
 				curPtr->dir_abs_path);
 		strcat(curPtr->sdirStruct[used].dir_abs_path, "/");
 		strcat(curPtr->sdirStruct[used].dir_abs_path, 
-				curPtr->sdirStruct[used].dir_name); 
+				namelist[temp]->d_name); 
 		
 	}
 	sub_dir_num -= 2;
@@ -639,7 +639,7 @@ int record_dir_output_file(struct dir_node *curPtr)
 					curPtr->dir_abs_path);
 			strcat(curPtr->sdirStruct[used].dir_abs_path, "/");
 			strcat(curPtr->sdirStruct[used].dir_abs_path, 
-					curPtr->sdirStruct[used].dir_name); 
+					dir_namelist[temp]->d_name); 
 			
 
 			/* also queue in */
