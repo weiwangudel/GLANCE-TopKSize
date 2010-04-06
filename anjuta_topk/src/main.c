@@ -68,6 +68,8 @@ struct queueLK tempvec;
 
 /********************************************************/
 /******* Drill down depth suppose within 200 (level < 200)   *****/
+int g_level = 0;  
+int g_level_thresh = 8;
 struct dir_node *g_depth_stack[200];
 int g_stack_top = 0;
 double saved_min_size;
@@ -103,6 +105,7 @@ void set_range(int top);
 int get_eligible_file(const struct dirent *entry);
 void collect_topk(struct dir_node *rootPtr);
 int old_count_for_topk(int argc, char **argv);
+int get_all_file(const struct dirent *entry);
 
 int min(int a, int b);
 int max(int a, int b);
@@ -113,7 +116,8 @@ void permutation(int size);
 
 int main(int argc, char* argv[]) 
 {
-	time(&g_prog_start_time);
+	
+	time(&g_prog_start_time);	
 	
 	old_count_for_topk(argc, argv);
 	
@@ -127,6 +131,10 @@ int old_count_for_topk(int argc, char **argv)
 	size_t i;
 	struct dir_node *curPtr;
 	struct dir_node root;
+	
+	
+	printf("hi!");
+
 	char *root_abs_name = NULL;
 	
 	signal(SIGKILL, CleanExit);
@@ -140,8 +148,9 @@ int old_count_for_topk(int argc, char **argv)
 
 	if (argc < 6)
 	{
-		printf("Usage: %s\ndrill-down-times pathname ",argv[0]);
+		printf("Usage: %s\n pilot-drill-down-times pathname ",argv[0]);
 		printf("topk_min_size topk_max_size dir_number [value of K]\n");
+		printf("[--realsize (must follow value K)]\n");
 		return EXIT_FAILURE; 
 	}
 	if (chdir(argv[2]) != 0)
@@ -149,12 +158,13 @@ int old_count_for_topk(int argc, char **argv)
 		printf("Error when chdir to %s", argv[2]);
 		return EXIT_FAILURE; 
 	}
-
+	
 	/* support relative path for command options */
 	if (root_abs_name != NULL)
 	{
 		free(root_abs_name);
 	}
+	
 	root_abs_name = dup_str(get_current_dir_name());
 
 	sample_times = atoi(argv[1]);
@@ -187,12 +197,15 @@ int old_count_for_topk(int argc, char **argv)
 	srand((int)time(0));//different seed number for random function
 
 	
+	printf("hi!");
 	/* start sampling to get size range information */
 	for (i=0; i < sample_times; i++)
 	{
 		o_begin_sample_from(root_abs_name, curPtr);
 		curPtr = &root;
 	}
+
+	printf("begin sample from passed!\n");
 
 	cur_k = 0;
 	saved_low_size = topk_min_size;
@@ -285,6 +298,7 @@ int o_begin_sample_from(
 		g_stack_top++;
 		
 		get_subdirs(cur_parent, curPtr);
+		
 		sub_dir_num = curPtr->sub_dir_num;
 		
 		/* drill down according to reported sub_dir_num */
@@ -324,7 +338,7 @@ int o_begin_sample_from(
 			/* finishing this drill down, set the direcotry back */
 			if (chdir(sample_root) != 0)
 			{
-				printf("chdir failed\n");
+				printf("chdir to sample_root failed\n");
 				exit(-1);
 			}
 			bool_sdone = 1;
@@ -343,8 +357,10 @@ void get_subdirs(
     size_t alloc;
 	int used = 0;
 	struct stat stat_buf;
-	double diff;
 	int sub_dir_num;		        /* number of sub dirs */
+	int sub_file_num;
+	int dir_abs_len;	/* length of the path */
+	int sdir_name_len;
 
 	/* already stored the subdirs struct before
 	 * no need to scan the dir again */
@@ -389,8 +405,8 @@ void get_subdirs(
 		curPtr->sdirStruct[temp].min_size = 0;
 		curPtr->sdirStruct[temp].max_size = 0;
 	}	
-
-	dir_abs_path = strlen(path);
+	
+	dir_abs_len = strlen(path);
 	
 	/* scan the namelist */
     for (temp = 0; temp < sub_dir_num; temp++)
@@ -404,6 +420,11 @@ void get_subdirs(
 		curPtr->sdirStruct[used].dir_abs_path =
 			(char*) malloc((dir_abs_len + 1   /* for "/" */
 					+ sdir_name_len +1) * sizeof(char));
+		if ( NULL == curPtr->sdirStruct[used].dir_abs_path)
+		{
+			printf("malloc error!\n");
+			exit(-1);
+		}
 		strcpy(curPtr->sdirStruct[used].dir_abs_path, 
 				curPtr->dir_abs_path);
 		strcat(curPtr->sdirStruct[used].dir_abs_path, "/");
@@ -411,12 +432,13 @@ void get_subdirs(
 				curPtr->sdirStruct[used].dir_name); 
 		
 	}
-
 	sub_dir_num -= 2;
 	curPtr->sub_dir_num = sub_dir_num;
 	
 	/* update bool_dir_explored info */
 	curPtr->bool_dir_explored = 1;
+
+	
 
 	/* encounter a new folder, update the [min, max] range 
 	 * corresponding to matlab preprocessing dtarr(i+1) stage 
@@ -430,15 +452,15 @@ void get_subdirs(
 	if (g_realsize == 1)  
 	{	
 		int temp_i = 0;
-		for (temp_i=0; temp_i < sub_file_num; i++)
+		for (temp_i=0; temp_i < sub_file_num; temp_i++)
 		{
-			if (stat(file_namelist[i], &stat_buf) != 0)
+			if (stat(file_namelist[temp_i]->d_name, &stat_buf) != 0)
 			{
 				printf("stat error!\n");
 				exit(-1);		
 			}
 	
-			if (stat_buf.st_size > cupPtr->max_size)
+			if (stat_buf.st_size > curPtr->max_size)
 			{
 				curPtr->max_size = stat_buf.st_size;
 			}
@@ -446,17 +468,25 @@ void get_subdirs(
 	}
 	else   /* read from file */
 	{		
+		FILE *fgetsize;
+		char size_buf[30];
+		double st_size;
 		int temp_i = 0;
-		for (temp_i=0; temp_i < sub_file_num; i++)
+
+		for (temp_i=0; temp_i < sub_file_num; temp_i++)
 		{
-			if (fopen(file_namelist[i], "r") != 0)
+			if ((fgetsize = fopen(file_namelist[temp_i]->d_name, "r")) == 0)
 			{
-				printf("stat error!\n");
+				printf("fopen error!\n");
 				exit(-1);		
 			}
-			fread(st_size, "%ld", );
+			if ( NULL == fgets(size_buf, 30, fgetsize)) 
+			{
+				printf("error read size info from file\n");
+			}	
+			st_size = atof(size_buf);
 			
-			if (st_size > cupPtr->max_size)
+			if (st_size > curPtr->max_size)
 			{
 				curPtr->max_size = st_size;
 			}
@@ -467,25 +497,17 @@ void get_subdirs(
 
 void set_range(int top)
 {
-	saved_min_size = g_depth_stack[g_stack_top - 1]->min_size;
-	saved_max_size = g_depth_stack[g_stack_top - 1]->max_size;
-
 	if (g_depth_stack[top]->min_size > saved_min_size)
 		g_depth_stack[top]->min_size = saved_min_size;
 
-	if (g_depth_stack[top]->max_size > saved_max_size)
+	if (g_depth_stack[top]->max_size < saved_max_size)
 		g_depth_stack[top]->max_size = saved_max_size;
 
-	/* save the [min, max] for parent use */
-	saved_min_size = g_depth_stack[top]->min_size;
-	saved_max_size = g_depth_stack[top]->max_size;
-	
 }
 
 /* traverse to collect topk */
 void collect_topk(struct dir_node *rootPtr)
 {
-    int level = 0;  
 	struct dir_node *cur_dir = NULL;
 	            
     /* root_dir goes to queue */
@@ -495,7 +517,7 @@ void collect_topk(struct dir_node *rootPtr)
     /* if queue is not empty */
     while (emptyQueue(&level_q) != 1)    
     {
-        level++;
+        g_level++;
         initQueue(&tempvec);
 		
         /* for all dirs currently in the queue 
@@ -530,7 +552,6 @@ void collect_topk(struct dir_node *rootPtr)
 		 */
 		level_q.front = tempvec.front;
 		level_q.rear = tempvec.rear;
-        }  
     }
 }
 
@@ -551,13 +572,15 @@ int record_dir_output_file(struct dir_node *curPtr)
 	 * there for use */	
 	if (curPtr->bool_dir_explored == 1)
 	{
-		/* choose the appropriate subdir for topk collection */
-		for (i = 0; i < curPtr->sub_dir_num; i++)
+		if (g_level > g_level_thresh || 
+			 curPtr->max_size * 10 > 10000000)
 		{
-			if (eligible_subdirs(curPtr->sdirStruct[i]) == 1)
+			/* add all the sub dirs to the current queue */
+			for (i = 0; i < curPtr->sub_dir_num; i++)
+			{
 				enQueue(&tempvec, &curPtr->sdirStruct[i]);
-		}		
-					
+			}		
+		}
 	}
 
 	/* this directory has never been drilled down, we need to explore 
@@ -610,7 +633,7 @@ int record_dir_output_file(struct dir_node *curPtr)
 			sdir_name_len = strlen(dir_namelist[temp]->d_name);
 			
 			curPtr->sdirStruct[used].dir_abs_path =
-				(char*) malloc((dir_abs_name + 1   /* for "/" */
+				(char*) malloc((dir_abs_len + 1   /* for "/" */
 							+ sdir_name_len +1) * sizeof(char));
 			strcpy(curPtr->sdirStruct[used].dir_abs_path, 
 					curPtr->dir_abs_path);
@@ -634,7 +657,7 @@ int record_dir_output_file(struct dir_node *curPtr)
 		
 	}
 	
-	/* check all the file's modification time under the curPtr->dirname
+	/* check all the file's size info under the curPtr->dirname
 	 * and output those are eligible (within the topk range
 	 */
 	if (chdir(curPtr->dir_abs_path) != 0)
@@ -660,8 +683,6 @@ int record_dir_output_file(struct dir_node *curPtr)
 
 int eligible_subdirs(struct dir_node sub_dir)
 {
-    //printf("sub_dir.max_size: %f\n", sub_dir.max_size);
-    //printf("sub_dir.min_size: %f\n", sub_dir.min_size);
 	if (topk_max_size < sub_dir.max_size)
 	{
 		return 0;		
@@ -700,26 +721,48 @@ int get_all_file(const struct dirent *entry)
 int get_eligible_file(const struct dirent *entry)
 {
 	struct stat stat_buf;
-	double diff;
 
 	/* only consider the files, because it is size topk */
 	if (entry->d_type == DT_DIR)
 		return 0;
 	
-	/* make sure to be in the correct directory */
-	if (stat(entry->d_name, &stat_buf) != 0)
-	{
-		printf("stat error!\n");
-		exit(-1);		
+	if (g_realsize == 1)  
+	{	
+		/* make sure to be in the correct directory */
+		if (stat(entry->d_name, &stat_buf) != 0)
+		{
+			printf("stat error!\n");
+			exit(-1);		
+		}
+
+		if (stat_buf.st_size > 10000000)
+		{
+			return 1;
+		}
+		else
+			return 0;
+	}
+	else   /* read from file */
+	{		
+		FILE *fgetsize;
+		char size_buf[30];
+		double st_size;
+
+		if ((fgetsize = fopen(entry->d_name, "r")) == 0)
+		{
+			printf("fopen error!\n");
+			exit(-1);		
+		}
+		fgets(size_buf, 30, fgetsize);	
+		st_size = atof(size_buf);
+		if (st_size > 10000000)
+		{
+			return 1;
+		}
+		else 
+			return 0;
 	}
 
-	diff = difftime(g_prog_start_time, stat_buf.st_mtime);
-
-	/* find most recent files */
-	if (diff < topk_max_size && diff > topk_min_size)
-		return 1;	
-	else
-		return 0;	
 }
 
 

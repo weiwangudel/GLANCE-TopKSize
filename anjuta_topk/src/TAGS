@@ -1,51 +1,52 @@
 
-main.c,1427
-#define MAX_PERMU 21,508
-#define MAX_DRILL_DOWN 22,534
-#define MAX_INT 23,562
-struct dir_node25,589
-struct timeval start;40,910
-struct timeval end;41,932
-double est_total;43,953
-long int sample_times;44,971
-long int qcost 45,994
-long int individual_max_qcost 46,1014
-long int individual_qcost 49,1157
-long int already_covered 50,1188
-long int newly_covered 51,1218
-int g_k_elem;54,1294
-time_t g_prog_start_time;55,1308
-int root_flag 57,1335
-int ar[ar59,1402
-struct queueLK level_q;61,1450
-struct queueLK tempvec;62,1474
-struct dir_node *g_depth_stack[g_depth_stack66,1626
-int g_stack_top 67,1663
-double saved_min_age;68,1684
-double saved_max_age;69,1706
-double saved_low_age;70,1728
-double saved_high_age;71,1777
-double topk_min_age;72,1826
-double topk_max_age;73,1847
-unsigned int    topk_dir_num 74,1868
-unsigned int    the_K;75,1902
-unsigned int    cur_k;76,1925
-int has_boundary_flag 77,1948
-int main(109,3056
-int old_count_for_topk(119,3182
-int random_next(245,6320
-int o_begin_sample_from(255,6568
-void get_subdirs(317,8050
-void set_range(422,10491
-void collect_topk(440,11000
-int record_dir_output_file(491,12298
-int eligible_subdirs(617,15182
-static char *dup_str(dup_str630,15455
-int check_type(641,15612
-int get_eligible_file(650,15780
-int min(677,16417
-int max(684,16491
-void permutation(691,16565
-void swap(700,16716
-int Random(709,16790
-void CleanExit(716,16938
+main.c,2546
+#define MAX_PERMU MAX_PERMU21,514
+#define MAX_DRILL_DOWN MAX_DRILL_DOWN22,540
+#define MAX_INT MAX_INT23,571
+struct dir_nodedir_node25,598
+	long int sub_file_num;sub_file_num27,616
+	long int sub_dir_num;sub_dir_num28,640
+	double min_size;		min_size30,664
+	double max_size;		/* size boundary */max_size31,684
+	int bool_dir_explored;bool_dir_explored33,724
+	char *dir_name;dir_name34,748
+	char *dir_abs_path;	 /* absolute path, needed for BFS */dir_abs_path35,765
+	struct dir_node *sdirStruct; /* child array dynamically allocated */sdirStruct36,823
+struct timeval start;start40,923
+struct timeval end;end41,945
+int g_realsize = 0;		/* --realsize changes it to 1 */ g_realsize44,988
+double g_estratio = 10; /* how to extend the size of the encoutered dir */g_estratio45,1043
+double est_total;est_total47,1119
+long int sample_times;sample_times48,1137
+long int qcost = 0;qcost49,1160
+long int individual_max_qcost = 0; /* records the maximumindividual_max_qcost50,1180
+long int individual_qcost = 0;individual_qcost53,1323
+long int already_covered = 0;already_covered54,1354
+long int newly_covered = 0;newly_covered55,1384
+int g_k_elem;g_k_elem58,1460
+time_t g_prog_start_time;g_prog_start_time59,1474
+int root_flag = 0; /* only set root factor to 1 in fast_subdir */root_flag62,1502
+int ar[MAX_PERMU];		/* used for permutation */ar64,1569
+struct queueLK level_q;level_q66,1617
+struct queueLK tempvec;tempvec67,1641
+int g_level = 0;  g_level71,1793
+int g_level_thresh = 8;g_level_thresh72,1812
+struct dir_node *g_depth_stack[200];g_depth_stack73,1836
+int g_stack_top = 0;g_stack_top74,1873
+double saved_min_size;saved_min_size75,1894
+double saved_max_size;saved_max_size76,1917
+double saved_low_size;  /* for `binary search` */saved_low_size77,1940
+double saved_high_size; /* for `binary search` */saved_high_size78,1990
+double topk_min_size;topk_min_size79,2040
+double topk_max_size;topk_max_size80,2062
+unsigned int    topk_dir_num = 1;topk_dir_num81,2084
+unsigned int    the_K;the_K82,2118
+unsigned int    cur_k;cur_k83,2141
+int has_boundary_flag = 0;has_boundary_flag84,2164
+int main(int argc, char* argv[]) main116,3272
+int old_count_for_topk(int argc, char **argv) old_count_for_topk126,3398
+int random_next(int random_bound)random_next267,6745
+int o_begin_sample_from(o_begin_sample_from273,6850
+void get_subdirs(   get_subdirs339,8414
+void set_range(int top)set_range475,11574
+void collect_topk(struct dir_node *rootPtr)collect_topk486,11838
