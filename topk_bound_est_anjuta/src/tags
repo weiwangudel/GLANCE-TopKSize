@@ -1,0 +1,37 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+CleanExit	main.c	/^void CleanExit(int sig)$/;"	f
+LIMIT_SET	main.c	/^const int LIMIT_SET = 100;   \/* limit the set to K*100 *\/$/;"	v
+MAX_DRILL_DOWN	main.c	/^const long int MAX_DRILL_DOWN =  1000000000;$/;"	v
+begin_sample_from	main.c	/^int begin_sample_from(const char *root, struct dir_node *curPtr) $/;"	f
+bool_dir_covered	main.c	/^	int bool_dir_covered;$/;"	m	struct:dir_node	file:
+check_type	main.c	/^int check_type(const struct dirent *entry)$/;"	f
+compare	main.c	/^int compare (const void * a, const void * b)$/;"	f
+dir_abs_path	main.c	/^	char *dir_abs_path;	 \/* absolute path, needed for BFS *\/$/;"	m	struct:dir_node	file:
+dir_name	main.c	/^	char *dir_name;$/;"	m	struct:dir_node	file:
+dir_node	main.c	/^struct dir_node$/;"	s	file:
+dup_str	main.c	/^static char *dup_str(const char *s) $/;"	f	file:
+end	main.c	/^struct timeval end;$/;"	v	typeref:struct:timeval
+est_num	main.c	/^double est_num;$/;"	v
+est_total	main.c	/^double est_total;$/;"	v
+fast_subdirs	main.c	/^void fast_subdirs(   $/;"	f
+file_size_array	main.c	/^long int *file_size_array;$/;"	v
+g_dir_visited	main.c	/^long int g_dir_visited = 0;$/;"	v
+g_qcost_thresh	main.c	/^double g_qcost_thresh;  \/* exit upon percentage *\/$/;"	v
+g_reach_thresh	main.c	/^int g_reach_thresh = 0; \/* flag whether reached the thresh *\/$/;"	v
+get_all_file	main.c	/^int get_all_file(const struct dirent *entry)$/;"	f
+get_file_size	main.c	/^long int get_file_size(const char *filename)$/;"	f
+main	main.c	/^int main(int argc, char **argv) $/;"	f
+max_size	main.c	/^	double max_size;		\/* size boundary *\/$/;"	m	struct:dir_node	file:
+num_file_selected	main.c	/^long int num_file_selected = 0;$/;"	v
+random_next	main.c	/^int random_next(int random_bound)$/;"	f
+root	main.c	/^struct dir_node root;$/;"	v	typeref:struct:dir_node
+sdirStruct	main.c	/^	struct dir_node *sdirStruct; \/* child array dynamically allocated *\/$/;"	m	struct:dir_node	typeref:struct:dir_node::dir_node	file:
+start	main.c	/^struct timeval start;$/;"	v	typeref:struct:timeval
+sub_dir_num	main.c	/^	long int sub_dir_num;$/;"	m	struct:dir_node	file:
+sub_file_num	main.c	/^	long int sub_file_num;$/;"	m	struct:dir_node	file:
+the_K	main.c	/^int the_K = 10;$/;"	v

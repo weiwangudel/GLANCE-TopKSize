@@ -1,0 +1,33 @@
+
+main.c,1673
+const long int MAX_DRILL_DOWN =  1000000000;MAX_DRILL_DOWN26,569
+const int LIMIT_SET = 100;   /* limit the set to K*100 */LIMIT_SET28,615
+long int *file_size_array;file_size_array29,673
+long int num_file_selected = 0;num_file_selected30,700
+int the_K = 10;the_K31,732
+struct timeval start;start33,749
+struct timeval end;end34,771
+double est_total;est_total35,791
+double est_num;est_num36,809
+long int g_dir_visited = 0;g_dir_visited37,825
+double g_qcost_thresh;  /* exit upon percentage */g_qcost_thresh38,853
+int g_reach_thresh = 0; /* flag whether reached the thresh */g_reach_thresh39,904
+struct dir_nodedir_node42,1003
+	long int sub_file_num;sub_file_num44,1021
+	long int sub_dir_num;sub_dir_num45,1045
+	double max_size;		/* size boundary */max_size47,1069
+	int bool_dir_covered;bool_dir_covered49,1109
+	char *dir_name;dir_name50,1132
+	char *dir_abs_path;	 /* absolute path, needed for BFS */dir_abs_path51,1149
+	struct dir_node *sdirStruct; /* child array dynamically allocated */sdirStruct52,1207
+struct dir_node root;root54,1280
+int main(int argc, char **argv) main67,1706
+int compare (const void * a, const void * b)compare145,3404
+int random_next(int random_bound)random_next151,3500
+int begin_sample_from(const char *root, struct dir_node *curPtr) begin_sample_from158,3606
+static char *dup_str(const char *s) dup_str202,4534
+void CleanExit(int sig)CleanExit214,4714
+void fast_subdirs(   fast_subdirs224,4878
+int check_type(const struct dirent *entry)check_type340,7694
+int get_all_file(const struct dirent *entry)get_all_file348,7820
+long int get_file_size(const char *filename)get_file_size356,7948

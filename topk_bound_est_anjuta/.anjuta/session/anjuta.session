@@ -1,0 +1,29 @@
+
+[Anjuta]
+Maximized=1
+Geometry=1680x975+0+25
+
+[File Loader]
+Files=file:///home/jiaqiang/Desktop/topk_bound_est_anjuta/src/main.c#1%%%file:///usr/include/bits/string3.h#52%%%file:///usr/include/stdlib.h#286%%%file:///usr/include/bits/stdio2.h#105
+
+[Document Manager]
+bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
+
+[Execution]
+Program arguments=1000 /media/disk/impressions/10K 100
+Program uri=file:///home/jiaqiang/Desktop/topk_bound_est_anjuta/src/topk_bound_est
+Run in terminal=2
+Working directories=file:///home/jiaqiang/Desktop/topk_bound_est_anjuta
+
+[Build]
+Configuration list=1:Default:%%%1:Debug:Debug%%%1:Profiling:Profiling%%%1:Optimized:Optimized
+Selected Configuration=Default
+BuildArgs/Default=
+BuildArgs/Debug='CFLAGS=-g -O0' 'CXXFLAGS=-g -O0' 'JFLAGS=-g -O0' 'FFLAGS=-g -O0'
+BuildArgs/Profiling='CFLAGS=-g -pg' 'CXXFLAGS=-g -pg' 'JFLAGS=-g -pg' 'FFLAGS=-g -pg'
+BuildArgs/Optimized='CFLAGS=-O2' 'CXXFLAGS=-O2' 'JFLAGS=-O2' 'FFLAGS=-O2'
+
+[Debugger]
+Watch=temp
+Breakpoint=1:file:///home/jiaqiang/Desktop/topk_bound_est_anjuta/src/main.c:372:0:%%%1:file:///home/jiaqiang/Desktop/topk_bound_est_anjuta/src/main.c:84:0:
+Stop at beginning=2
