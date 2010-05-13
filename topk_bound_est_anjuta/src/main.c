@@ -4,13 +4,13 @@
 * Description: 
 * Bound estimation for topk size 
 *
-* Last Modification Time: 05/12/2010
+* Last Modification Time: 05/13/2010
 *
 * Compile with:
 * Type make.
 *
 * Usage:
-* %s drill-down-times pathname theK
+* %s drill-down-times pathname theK [real dir] [real file] --realsize
 * 
 **********************************************************************/
 #include <stdio.h>
